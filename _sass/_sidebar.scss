@@ -46,11 +46,13 @@
   margin-top: var(--spacer-2);
   padding: 0;
   list-style: none;
+  text-align: center;
 }
 
 .navigation-item {
-  display: block;
-  margin-bottom: var(--spacer);
+  display: inline-block;
+  margin-right: var(--spacer);
+  margin-bottom: 0;
 }
 
 .navigation-item a {
