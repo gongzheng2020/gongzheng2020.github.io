@@ -9,6 +9,7 @@ Not Pure Poole supports [MathJax](https://www.mathjax.org/). You can enable it o
 
 An inline math: \\\(E=mc^2\\\).
 
+
 A display math:
 
 $$

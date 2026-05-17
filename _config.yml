@@ -4,6 +4,7 @@ description: I am a graduate student from Chongqing University, and my research 
 url: https://gongzheng2020.github.io
 avatar: /avatar.jpeg
 paginate: 5
+paginate_path: /blog/page:num/
 permalink: pretty
 cover_image: /bg_night.png
 

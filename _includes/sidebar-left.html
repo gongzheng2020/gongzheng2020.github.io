@@ -12,15 +12,34 @@
   <div class="masthead-title">
     <a href="{{ "/" | relative_url }}" title="Home">{{ site.title }}</a>
   </div>
-  <div class="masthead-tagline">
-    <small>{{ site.description }}</small>
-  </div>
+  {%- if site.data.news -%}
+    <ul class="latest-news">
+    {%- for item in site.data.news -%}
+      <li class="latest-news-item">
+        <span class="latest-news-date">[{{ item.date }}]</span>
+        <span class="latest-news-text">{{ item.text }}</span>
+      </li>
+    {%- endfor -%}
+    </ul>
+  {%- endif -%}
   {%- if site.data.navigation -%}
   <nav class="navigation">
     <ul class="navigation-list">
     {%- for nav in site.data.navigation -%}
       <li class="navigation-item">
-        <a onclick="sessionStorage.setItem('forceCheckScroll', 'true')" href="{{ nav.url | relative_url }}">{{ nav.title | escape }}</a>
+        {%- assign current_item = false -%}
+        {%- if page.url == nav.url -%}
+          {%- assign current_item = true -%}
+        {%- elsif nav.url == "/" and page.url == "/about/" -%}
+          {%- assign current_item = true -%}
+        {%- elsif nav.url == "/blog/" and page.url contains "/blog/" -%}
+          {%- assign current_item = true -%}
+        {%- elsif nav.url == "/blog/" and page.layout == "post" -%}
+          {%- assign current_item = true -%}
+        {%- elsif nav.url == "/blog/" and page.layout contains "archive" -%}
+          {%- assign current_item = true -%}
+        {%- endif -%}
+        <a class="{% if current_item %}current-item{% endif %}" onclick="sessionStorage.setItem('forceCheckScroll', 'true')" href="{{ nav.url | relative_url }}">{{ nav.title | escape }}</a>
       </li>
     {%- endfor -%}
     </ul>

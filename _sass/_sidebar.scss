@@ -33,12 +33,29 @@
   }
 }
 
-.masthead-tagline {
+.latest-news {
+  margin: var(--spacer) 0 0;
   padding: 0;
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 400;
+  list-style: none;
+  color: inherit;
+  text-align: left;
+  font-size: .8rem;
+  line-height: 1.45;
   opacity: .7;
+}
+
+.latest-news-item {
+  margin-bottom: .55rem;
+}
+
+.latest-news-date {
+  color: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.latest-news-text {
+  color: inherit;
 }
 
 .navigation-list {
@@ -59,13 +76,16 @@
   color: inherit;
   letter-spacing: 0.05em;
   font-size: 90%;
-  border-bottom: 2px solid;
-  border-color: inherit;
+  border-bottom: 2px solid transparent;
 
   &:hover,
   &:focus {
     color: var(--link-hover-color);
   }
+}
+
+.navigation-item .current-item {
+  border-bottom-color: currentColor;
 }
 
 .social {

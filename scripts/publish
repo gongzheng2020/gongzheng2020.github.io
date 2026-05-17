@@ -1,3 +1,20 @@
 #!/bin/sh
 
-bundle exec jekyll publish $1
+set -e
+
+if [ "$#" -eq 0 ]; then
+  echo "Usage: scripts/publish \"my-post-title\""
+  exit 1
+fi
+
+draft_path="$1"
+
+if [ ! -f "$draft_path" ]; then
+  draft_path=$(bundle exec ruby -rjekyll -e '
+title = ARGV.join(" ")
+slug = Jekyll::Utils.slugify(title)
+puts File.join("_drafts", "#{slug}.md")
+' "$@")
+fi
+
+bundle exec jekyll publish "$draft_path"

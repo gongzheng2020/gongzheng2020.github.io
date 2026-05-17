@@ -1,3 +1,33 @@
 #!/bin/sh
 
-bundle exec jekyll draft $1
+set -e
+
+bundle exec jekyll draft "$@"
+
+bundle exec ruby -rjekyll -ryaml -e '
+title = ARGV.join(" ")
+slug = Jekyll::Utils.slugify(title)
+path = File.join("_drafts", "#{slug}.md")
+
+unless File.file?(path)
+  warn "Could not find draft at #{path}; skipping timestamp update."
+  exit 0
+end
+
+content = File.read(path)
+timestamp = Time.now
+date = timestamp.strftime("%Y-%m-%d %H:%M %z")
+last_modified_at = timestamp.strftime("%Y-%m-%d %H:%M:%S %z")
+
+if content =~ /\A---\s*\n(.*?)^---\s*\n/m
+  data = YAML.safe_load(Regexp.last_match(1), permitted_classes: [Date, Time], aliases: true) || {}
+  body = Regexp.last_match.post_match
+  data["author"] ||= "Zheng Gong"
+  data["tags"] ||= []
+  data["date"] ||= date
+  data["last_modified_at"] ||= last_modified_at
+  File.write(path, "#{YAML.dump(data)}---\n#{body}")
+else
+  File.write(path, "---\nauthor: Zheng Gong\ntags: []\ndate: #{date}\nlast_modified_at: #{last_modified_at}\n---\n#{content}")
+end
+' "$@"
